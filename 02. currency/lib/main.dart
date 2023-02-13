@@ -2,14 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:toonflix/widgets/button.dart';
 import 'package:toonflix/widgets/currency_card.dart';
 
-class Player {
-  String? name;
-  Player({required this.name}); // name 을 받는 constructor
-}
-
 void main() {
   runApp(const App());
-  var nico = Player(name: 'potato');
 }
 
 /** 🌟 Widget = 앱의 UI 를 만드는 레고 블럭. 플러터의 모든 것들은 위젯이다.
@@ -131,31 +125,28 @@ class App extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   const CurrencyCard(
+                    order: 1,
                     name: 'Euro',
                     code: 'EUR',
                     amount: '6 428',
                     icon: Icons.euro_rounded,
                     isInverted: false,
                   ),
-                  Transform.translate(
-                    offset: const Offset(0, -20),
-                    child: const CurrencyCard(
-                      name: 'Bitcoin',
-                      code: 'BTC',
-                      amount: '9 785',
-                      icon: Icons.currency_bitcoin,
-                      isInverted: true,
-                    ),
+                  const CurrencyCard(
+                    order: 2,
+                    name: 'Bitcoin',
+                    code: 'BTC',
+                    amount: '9 785',
+                    icon: Icons.currency_bitcoin,
+                    isInverted: true,
                   ),
-                  Transform.translate(
-                    offset: const Offset(0, -40),
-                    child: const CurrencyCard(
-                      name: 'Dollar',
-                      code: 'USD',
-                      amount: '428',
-                      icon: Icons.attach_money_outlined,
-                      isInverted: false,
-                    ),
+                  const CurrencyCard(
+                    order: 3,
+                    name: 'Dollar',
+                    code: 'USD',
+                    amount: '428',
+                    icon: Icons.attach_money_outlined,
+                    isInverted: false,
                   ),
                 ],
               ),
