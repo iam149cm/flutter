@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webtoon/models/webtoon_model.dart';
 import 'package:webtoon/services/api_service.dart';
+import 'package:webtoon/widgets/webtoon_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -26,7 +27,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       body: FutureBuilder(
-        // 👉 stateful widget 을 쓸 필요가 없다. widget 이 데이터를 기다려주고 데이터에 따라 다른 ui 를 보여준다.
+        // ✨👉 stateful widget 을 쓸 필요가 없다. widget 이 데이터를 기다려주고 데이터에 따라 다른 ui 를 보여준다.
         future: webtoons,
         builder: (context, snapshot) {
           // snapshot : state of the future
@@ -60,31 +61,11 @@ class HomeScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         // 데이터를 뿌려준다. List에서 사용자가 보고 있는 아이템만 build 한다
         var webtoon = snapshot.data![index];
-        print(index);
-        return Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 10,
-                      offset: const Offset(5, 5),
-                      color: Colors.black.withOpacity(0.5),
-                    )
-                  ]),
-              clipBehavior: Clip.hardEdge, // clipBehavior : 자식의 부모 영역 침범을 제어
-              width: 250,
-              child: Image.network(webtoon.thumb),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(webtoon.title,
-                style: const TextStyle(
-                  fontSize: 22,
-                )),
-          ],
+
+        return Webtoon(
+          title: webtoon.title,
+          thumb: webtoon.thumb,
+          id: webtoon.id,
         );
       },
       separatorBuilder: (context, index) =>
