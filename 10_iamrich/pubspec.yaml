@@ -1,0 +1,28 @@
+name: iamrich
+description: A new Flutter project.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+environment:
+  sdk: '>=2.19.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+# YAML 파일에서 부모는 맨 앞에 공백이 없다.
+# 공백 2칸을 띄우면 자식이 된다. 각 계층은 2개의 스페이스로 구분된다. 
+# 파일이 많은 경우 폴더만 지정하는 것도 가능하다. 
+# pubspec 파일을 수정한 후에는 반드시 get packages 를 눌러줘야 한다.
+  uses-material-design: true 
+  assets:
+    # - images/diamond.png
+    - images/
+
+ 
