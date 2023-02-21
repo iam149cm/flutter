@@ -5,7 +5,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const bottomContainerHeight = 80.0;
 const activeCardColor = Color(0xFF1D1E33);
+const inactiveCardColor = Color(0xFF111328);
 const bottomContainerColor = Color(0xFFEB1555);
+
+// 🤍 ENUM - Enumeration 열거 (The action of establishing the number of something)
+// 대문자로 시작하고 camel case
+enum Gender {
+  male,
+  female,
+}
 
 class InputPage extends StatefulWidget {
   @override
@@ -14,6 +22,28 @@ class InputPage extends StatefulWidget {
 
 // DRY - Do not Repeate Yourself!
 class _InputPageState extends State<InputPage> {
+  Color maleCardColour = inactiveCardColor;
+  Color femaleCardColour = inactiveCardColor;
+
+  void updateColour(Gender selectedGender) {
+    if (selectedGender == Gender.male) {
+      if (maleCardColour == inactiveCardColor) {
+        maleCardColour = activeCardColor;
+        femaleCardColour = inactiveCardColor;
+      } else {
+        maleCardColour = inactiveCardColor;
+      }
+    }
+    if (selectedGender == Gender.female) {
+      if (femaleCardColour == inactiveCardColor) {
+        femaleCardColour = activeCardColor;
+        maleCardColour = inactiveCardColor;
+      } else {
+        femaleCardColour = inactiveCardColor;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,28 +58,42 @@ class _InputPageState extends State<InputPage> {
               child: Row(
             children: [
               Expanded(
-                child: ReusableCard(
-                  colour: activeCardColor,
-                  cardChild: IconContent(
-                    label: 'MALE',
-                    icon: Icon(
-                      FontAwesomeIcons.mars,
-                      size: 80,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      updateColour(Gender.male);
+                    });
+                  },
+                  child: ReusableCard(
+                    colour: maleCardColour,
+                    cardChild: IconContent(
+                      label: 'MALE',
+                      icon: Icon(
+                        FontAwesomeIcons.mars,
+                        size: 80,
+                      ),
                     ),
                   ),
                 ),
               ),
               Expanded(
-                child: ReusableCard(
-                  colour: activeCardColor,
-                  cardChild: Container(
-                      child: IconContent(
-                    label: 'FEMALE',
-                    icon: Icon(
-                      FontAwesomeIcons.venus,
-                      size: 80,
-                    ),
-                  )),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      updateColour(Gender.female);
+                    });
+                  },
+                  child: ReusableCard(
+                    colour: femaleCardColour,
+                    cardChild: Container(
+                        child: IconContent(
+                      label: 'FEMALE',
+                      icon: Icon(
+                        FontAwesomeIcons.venus,
+                        size: 80,
+                      ),
+                    )),
+                  ),
                 ),
               ),
             ],
