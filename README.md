@@ -4,7 +4,7 @@
 <table><tr>
 <td><img src="https://github.com/iam149cm/flutter/blob/master/img/10_iamrich.png?raw=true" style="width:200px"> 
 </td>
-<td><img src="https://github.com/iam149cm/flutter/blob/master/img/11_micard.png?raw=true" style="width:200px"> </td> 
+<td><img src="https://github.com/iam149cm/flutter/blob/master/img/11_micard.png?raw=true" style="width:200px"> </td> <td><img src="https://github.com/iam149cm/flutter/blob/master/img/02_currency.png?raw=true" style="width:200px"> </td> 
 
 </tr></table>
 
