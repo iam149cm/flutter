@@ -14,7 +14,9 @@ class Screen2 extends StatelessWidget {
               backgroundColor:
                   MaterialStateColor.resolveWith((states) => Colors.blue)),
           child: Text('Go Back To Screen 1'),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context); // 뒤로가기
+          },
         ),
       ),
     );
