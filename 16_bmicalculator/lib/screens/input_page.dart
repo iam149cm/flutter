@@ -1,9 +1,12 @@
-import 'package:bmicalculator/icon_content.dart';
-import 'package:bmicalculator/reusable_card.dart';
+import 'package:bmicalculator/components/bottom_button.dart';
+import 'package:bmicalculator/components/icon_content.dart';
+import 'package:bmicalculator/components/reusable_card.dart';
+import 'package:bmicalculator/components/round_icon_button.dart';
+import 'package:bmicalculator/screens/results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 // 🤍 ENUM - Enumeration 열거 (The action of establishing the number of something)
 // 대문자로 시작하고 camel case
@@ -220,45 +223,19 @@ class _InputPageState extends State<InputPage> {
               ),
             ]),
           ),
-          Container(
-            color: kBottomContainerColor,
-            margin: EdgeInsets.only(
-              top: 10,
-            ),
-            width: double.infinity, // 가로의 full-width
-            height: kBottomContainerHeight,
+          BottomButton(
+            buttonTitle: 'CALCULATE',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ResultsPage(),
+                ),
+              );
+            },
           )
         ],
       ),
-    );
-  }
-}
-
-// ✨🤍✨ custom button 을 만들 수 있다!
-class RoundIconButton extends StatelessWidget {
-  const RoundIconButton({Key? key, required this.icon, required this.onPressed})
-      : super(key: key);
-
-  final IconData icon;
-  final VoidCallback onPressed;
-
-  void clickIcon(icon) {
-    print(icon);
-    if (icon.toString() == 'IconData(U+0002B)') {
-    } else {}
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      child: Icon(icon),
-      constraints: BoxConstraints.tightFor(
-        width: 56.0, // FloatingActionButton - RawMaterialButton 에서 가져온 수치
-        height: 56.0,
-      ),
-      shape: CircleBorder(),
-      fillColor: Color(0xFF4C4F5E),
-      onPressed: onPressed,
     );
   }
 }
