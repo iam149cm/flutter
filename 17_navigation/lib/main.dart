@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       // home: Screen0(),
       // initialRoute - 초기 route 설정. home 프로퍼티와 동시에 설정할 수 없다
       initialRoute: '/',
-      // routes - multiful Route 설정
+      // routes - multiple Route 설정
       routes: {
         '/': (context) => Screen0(),
         '/first': (context) => Screen1(),
