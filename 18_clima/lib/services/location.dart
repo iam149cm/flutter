@@ -9,40 +9,38 @@ import 'package:geolocator/geolocator.dart';
 class Location {
   double? latitude;
   double? longitude;
-  Position? position;
 
-  Future<bool> gotPermission() async {
+  Future<void> getLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       print('Location services are disabled.');
-      return false;
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
-      return true;
+      print('if 문 안 getCurrentLocation 위..........');
+      getCurrentLocation();
     } else {
       await Geolocator.requestPermission();
-      return false;
     }
   }
 
   Future<void> getCurrentLocation() async {
-    print(gotPermission());
-    // if (gotPermission() == true) {
+    Position position;
+
     try {
+      print('getCurrentLocation try 안........');
       position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation,
-        timeLimit: Duration(seconds: 5),
+        timeLimit: Duration(seconds: 1),
       );
     } catch (e) {
-      position = await Geolocator.getLastKnownPosition(
-          forceAndroidLocationManager: true);
+      position = (await Geolocator.getLastKnownPosition(
+          forceAndroidLocationManager: true))!;
     }
-    latitude = position?.latitude;
-    longitude = position?.longitude;
-    // }
+    latitude = position.latitude;
+    longitude = position.longitude;
   }
 }
 
