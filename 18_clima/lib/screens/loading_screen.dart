@@ -18,8 +18,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void getLocation() async {
     // 호출 할 때도 async, await 필수
     Location location = Location();
-    // await 가 있어야 null 이 안뜸!!!!!!!!! (이것 때문에 당신은 3시간 디버깅을 하였다)
-    await location.getCurrentLocation();
+    // 🤍 await 가 있어야 null 이 안뜸!!!!!!!!! (이것 때문에 당신은 3시간 디버깅을 하였다)
+    await location.getLocation();
 
     print('✨ loading_screen...................');
     print(location.latitude);

@@ -19,8 +19,8 @@ class Location {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
-      print('if 문 안 getCurrentLocation 위..........');
-      getCurrentLocation();
+      print('getLocation if 문 안 getCurrentLocation 위..........');
+      await getCurrentLocation(); // 🤍🤍🤍 await 로 호출하여야만 해 🤍🤍🤍
     } else {
       await Geolocator.requestPermission();
     }
@@ -53,41 +53,3 @@ class Location {
  *  - 어떤 일이 언제 일어날지 원하는 시점에 따라 코드의 위치가 달라진다
  *
  */
-
-//
-// void getLocation() async {
-//   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-//   if (!serviceEnabled) {
-//     print('Location services are disabled.');
-//   }
-//
-//   LocationPermission permission = await Geolocator.checkPermission();
-//   if (permission == LocationPermission.always ||
-//       permission == LocationPermission.whileInUse) {
-//     printLocation();
-//   } else {
-//     await Geolocator.requestPermission();
-//   }
-// }
-//
-// printLocation() async {
-//   // Future<Position> 라고 선언하면 번호표가 print 된다 (Position 으로 선언하면 커피)
-//   Position? position = null;
-//
-//   try {
-//     position = await Geolocator.getCurrentPosition(
-//       desiredAccuracy: LocationAccuracy.bestForNavigation,
-//       timeLimit: Duration(seconds: 5), // 5초가 지나도 받아오지 못하면 마지막 장소를 받아온다
-//     );
-//   } catch (e) {
-//     position = await Geolocator.getLastKnownPosition(
-//       forceAndroidLocationManager: true,
-//     );
-//   }
-//
-//   latitude = position!.latitude;
-//   longitude = position!.longitude;
-//   print(position);
-//   print(latitude);
-//   print(longitude);
-// }
