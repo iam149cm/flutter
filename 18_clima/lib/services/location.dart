@@ -33,7 +33,7 @@ class Location {
       print('getCurrentLocation try 안........');
       position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation,
-        timeLimit: Duration(seconds: 1),
+        timeLimit: Duration(seconds: 5),
       );
     } catch (e) {
       position = (await Geolocator.getLastKnownPosition(
