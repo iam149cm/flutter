@@ -1,8 +1,6 @@
 import 'package:clima/screens/location_screen.dart';
-import 'package:clima/services/location.dart';
-import 'package:clima/services/networking.dart';
+import 'package:clima/services/weather.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -26,20 +24,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void getLocationData() async {
-    // 호출 할 때도 async, await 필수
-    Location location = Location();
-    // 🤍 await 가 있어야 null 이 안뜸!!!!!!!!! (이것 때문에 당신은 3시간 디버깅을 하였다)
-    await location.getLocation();
+    // 우리는 이 weatherData 가 필요하기 때문에 await
+    var weatherData = await WeatherModel().getLocationWeather();
 
-    print('✨ loading_screen...................');
-
-    await DotEnv.load(fileName: "key.env");
-    weatherKey = DotEnv.env['WEATHER_KEY'].toString();
-
-    NetworkHelper networkHelper = NetworkHelper(
-        "https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$weatherKey&units=metric");
-
-    var weatherData = await networkHelper.getData();
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return LocationScreen(

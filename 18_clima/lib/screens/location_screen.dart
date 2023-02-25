@@ -26,12 +26,21 @@ class _LocationScreenState extends State<LocationScreen> {
 
   void updateUI(dynamic weatherData) {
     setState(() {
+      // weatherData 가 null 인 경우 app 이 crash되는 것을 방지한다
+      if (weatherData == null) {
+        temperature = 0;
+        weatherIcon = 'Error';
+        weatherMsg = 'Unable to get weather data';
+        cityName = '';
+        return; // 메서드를 종료시킨다
+      }
       double temp = weatherData['main']['temp'];
       temperature = temp.toInt();
       var condition = weatherData['weather'][0]['id'];
       weatherIcon = weather.getWeatherIcon(condition);
       weatherMsg = weather.getMessage(temperature);
       cityName = weatherData['name'];
+      print('✨ current location : $cityName');
     });
   }
 
@@ -58,9 +67,14 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      // updateUI 로 넘길 때 null 이 아니어야 하기 때문에 데이터가 넘어올 때 까지 await
+                      var weatherData = await weather.getLocationWeather();
+                      updateUI(weatherData);
+                    },
                     child: Icon(
                       Icons.near_me,
+                      color: Colors.white,
                       size: 50.0,
                     ),
                   ),
@@ -68,6 +82,7 @@ class _LocationScreenState extends State<LocationScreen> {
                     onPressed: () {},
                     child: Icon(
                       Icons.location_city,
+                      color: Colors.white,
                       size: 50.0,
                     ),
                   ),
