@@ -1,3 +1,4 @@
+import 'package:clima/screens/city_screen.dart';
 import 'package:clima/services/weather.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +80,22 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      // CityScreen 진입 후 pop 될 때 기입한 도시명이 이 변수에 저장된다.
+                      // 유저가 도시명을 언제 기입할지 모르므로 await로 Navigator 를 호출한다.
+                      var typedName =
+                          await Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return CityScreen();
+                        },
+                      ));
+                      print('typedName....................' + typedName);
+                      if (typedName != null) {
+                        var weatherData =
+                            await weather.getCityWeather(typedName);
+                        updateUI(weatherData);
+                      }
+                    },
                     child: Icon(
                       Icons.location_city,
                       color: Colors.white,

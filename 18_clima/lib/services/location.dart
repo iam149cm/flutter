@@ -33,9 +33,10 @@ class Location {
       print('getCurrentLocation try 안........');
       position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation,
-        timeLimit: Duration(seconds: 5),
+        timeLimit: Duration(seconds: 1),
       );
     } catch (e) {
+      // ✨ 여기서 null 이 뜬다고 에러가 나면 시뮬레이터의 구글맵에서 현재 위치정보를 한 번 받아오고 어플 재시작
       position = (await Geolocator.getLastKnownPosition(
           forceAndroidLocationManager: true))!;
     }
