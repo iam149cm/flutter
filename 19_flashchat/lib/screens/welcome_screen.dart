@@ -15,7 +15,54 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
+  // 선언 하고 나중에 초기화 할 객체는 late 를 붙이기
+  late AnimationController controller;
+  late Animation animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+      duration: Duration(seconds: 2),
+      // Q. vsync - who's going to provide this animation controller?
+      // class 에 with 로 Ticker를 붙여 사용하기 때문에 this
+      vsync: this,
+      // 최대값을 100으로 설정하고 value 를 찍어서 loading 수치를 표현할 수 있다. ( 1 -> 100% )
+      // upperBound: 100,
+    );
+
+    // animation 은 layer 와도 같다.
+    // animation 의 parent = animation Controller. what will we apply this curve to?
+    // curve 를 사용 할 때는 upperBound 가 최대 1이다. decelerate는 증가폭이 1에 가까울수록 줄어드는 형태.
+    animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+
+    controller.forward();
+    // status 를 통해 animation 이 끝났는지 확인 가능하며 상태에 따라 무한 루프가 가능하다.
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        controller.reverse(from: 1); // 1부터 value가 작아지게
+      } else if (status == AnimationStatus.dismissed) {
+        controller.forward(); // 0부터 value가 커지게
+      }
+    });
+
+    controller.addListener(() {
+      setState(() {}); // 필수!
+      print(animation.value);
+    });
+  }
+
+  @override
+  void dispose() {
+    // 반복적인 animation controller 를 사용 할 경우 앱(화면)이 꺼져도 controller 는 계속 구동하면서 리소스를 먹는다
+    // 그렇기 때문에 dispose 단계 에서 앱(화면)이 꺼질 때 animation controller 도 종료시켜야 한다.
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,9 +75,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Container(
-                  child: Image.asset('images/logo.png'),
-                  height: 60.0,
+                Hero(
+                  // 애니메이션 적용을 위한 Hero widget
+                  tag: 'logo',
+                  child: Container(
+                    child: Image.asset('images/logo.png'),
+                    height: animation.value * 100,
+                  ),
                 ),
                 Text(
                   'Flash Chat',
