@@ -1,3 +1,5 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flashchat/components/rounded_button.dart';
 import 'package:flashchat/screens/login_screen.dart';
 import 'package:flashchat/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,12 @@ class WelcomeScreen extends StatefulWidget {
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
+
+/** ✨ mixin - class 에게 새로운 능력을 부여하는 것!
+ * - 부모의 상속 여부와 상관 없이 다양한 클래스들의 코드를 재사용 할 수 있다.
+ * - with 키워드를 사용하여 2개 이상 재사용 가능. 이로 인한 유지보수 용이성 향상
+ * - 상속의 경우 해당 class 의 메서드를 전체 override 하지만 mixin 은 필요한 부분만 골라 쓰는 것이 가능.
+ */ ///
 
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
@@ -41,13 +49,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     // ✨ 스무스한 애니메이션 (ex 색깔 변경) 을 위해 사용하는 ColorTween
     // tween 은 시작값, 종료값을 받아 시작--종료의 애니메이션을 제공한다
-    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
+    animation = ColorTween(begin: Colors.cyan.shade100, end: Colors.white)
         .animate(controller);
     controller.forward();
-
     controller.addListener(() {
       setState(() {}); // 필수!
-      print(animation.value);
     });
   }
 
@@ -79,9 +85,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     height: 60,
                   ),
                 ),
-                Text(
-                  'Flash Chat',
-                  style: TextStyle(
+                TypewriterAnimatedTextKit(
+                  speed: Duration(milliseconds: 250),
+                  text: ['Flash Chat'],
+                  textStyle: TextStyle(
+                    color: Colors.grey.shade600,
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,
                   ),
@@ -91,43 +99,20 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             SizedBox(
               height: 48.0,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                elevation: 5.0,
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    //Go to login screen. 지정된 named Route 가 있으면 pushNamed 를 사용!
-                    Navigator.pushNamed(context, LoginScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Log In',
-                  ),
-                ),
-              ),
+            RoundedButton(
+              title: 'Login',
+              color: Colors.lightBlueAccent,
+              onPressed: () {
+                // named route이므로 pushNamed!
+                Navigator.pushNamed(context, LoginScreen.id);
+              },
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    //Go to registration screen.
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Register',
-                  ),
-                ),
-              ),
+            RoundedButton(
+              title: 'Register',
+              color: Colors.blueAccent,
+              onPressed: () {
+                Navigator.pushNamed(context, RegistrationScreen.id);
+              },
             ),
           ],
         ),

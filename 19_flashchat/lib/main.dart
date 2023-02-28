@@ -10,11 +10,6 @@ class FlashChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark().copyWith(
-        textTheme: TextTheme(
-          bodyMedium: TextStyle(color: Colors.black54),
-        ),
-      ),
       initialRoute: WelcomeScreen.id,
       routes: {
         // route 는 각 클래스의 static 개체를 사용하는 것이 String 으로 하드코딩 하는 것 보다 오타 예방에 좋다.
