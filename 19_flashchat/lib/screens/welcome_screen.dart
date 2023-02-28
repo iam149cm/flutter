@@ -26,7 +26,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     super.initState();
 
     controller = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1),
       // Q. vsync - who's going to provide this animation controller?
       // class 에 with 로 Ticker를 붙여 사용하기 때문에 this
       vsync: this,
@@ -36,18 +36,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     // animation 은 layer 와도 같다.
     // animation 의 parent = animation Controller. what will we apply this curve to?
-    // curve 를 사용 할 때는 upperBound 가 최대 1이다. decelerate는 증가폭이 1에 가까울수록 줄어드는 형태.
-    animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+    // ✨ curve 를 사용 할 때는 upperBound 가 최대 1이다. decelerate는 증가폭이 1에 가까울수록 줄어드는 형태.
+    // animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
 
+    // ✨ 스무스한 애니메이션 (ex 색깔 변경) 을 위해 사용하는 ColorTween
+    // tween 은 시작값, 종료값을 받아 시작--종료의 애니메이션을 제공한다
+    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
+        .animate(controller);
     controller.forward();
-    // status 를 통해 animation 이 끝났는지 확인 가능하며 상태에 따라 무한 루프가 가능하다.
-    animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        controller.reverse(from: 1); // 1부터 value가 작아지게
-      } else if (status == AnimationStatus.dismissed) {
-        controller.forward(); // 0부터 value가 커지게
-      }
-    });
 
     controller.addListener(() {
       setState(() {}); // 필수!
@@ -66,7 +62,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: animation.value,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -80,7 +76,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('images/logo.png'),
-                    height: animation.value * 100,
+                    height: 60,
                   ),
                 ),
                 Text(
