@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todoey/screens/add_task_screen.dart';
+import 'package:todoey/widgets/tasks_list.dart';
 
 class TasksScreen extends StatelessWidget {
   const TasksScreen({Key? key}) : super(key: key);
@@ -11,9 +13,15 @@ class TasksScreen extends StatelessWidget {
         backgroundColor: Colors.cyan.shade200,
         child: Icon(
           Icons.add,
-          size: 40,
         ),
-        onPressed: () {},
+        onPressed: () {
+          // bottomSheet 를 보여준다. builder에는 widget 을 리턴하는 함수가 들어간다
+          showModalBottomSheet(
+            context: context,
+            // isScrollControlled: true,
+            builder: (context) => AddTaskScreen(),
+          );
+        },
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +37,7 @@ class TasksScreen extends StatelessWidget {
                     child: Icon(
                       Icons.list,
                       color: Colors.cyan.shade200,
-                      size: 40,
+                      size: 30,
                     )),
                 SizedBox(
                   height: 10,
@@ -54,12 +62,14 @@ class TasksScreen extends StatelessWidget {
           ),
           Expanded(
             child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
                   )),
+              child: TasksList(),
             ),
           )
         ],
