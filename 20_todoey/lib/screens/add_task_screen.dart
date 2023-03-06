@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  const AddTaskScreen({Key? key}) : super(key: key);
+  final Function addTaskCallback;
+
+  const AddTaskScreen(
+      {super.key,
+      required this.addTaskCallback}); // Task가 입력되고 버튼을 누르면 리스트에 추가하는 콜백함수
 
   @override
   Widget build(BuildContext context) {
+    late String newTaskTitle;
+
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -29,6 +35,9 @@ class AddTaskScreen extends StatelessWidget {
             TextField(
               autofocus: true,
               textAlign: TextAlign.center,
+              onChanged: (newText) {
+                newTaskTitle = newText;
+              },
             ),
             TextButton(
               child: Text(
@@ -38,7 +47,9 @@ class AddTaskScreen extends StatelessWidget {
               style: ButtonStyle(
                   backgroundColor: MaterialStateColor.resolveWith(
                       (states) => Colors.cyan.shade200)),
-              onPressed: () {},
+              onPressed: () {
+                addTaskCallback(newTaskTitle);
+              },
             ),
           ],
         ),
