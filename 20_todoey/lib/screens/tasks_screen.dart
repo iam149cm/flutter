@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:todoey/models/task.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey/models/task_data.dart';
 import 'package:todoey/screens/add_task_screen.dart';
 import 'package:todoey/widgets/tasks_list.dart';
 
-// 🤍 Task 를 입력 받아 화면에 뿌려줄 것 (state가 변경됨) 이므로 StatefulWidget 으로 변경
-class TasksScreen extends StatefulWidget {
-  @override
-  State<TasksScreen> createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
-  List<Task> tasks = [
-    Task(name: 'Buy milk'),
-    Task(name: 'Buy eggs'),
-    Task(name: 'Buy bread'),
-  ];
-
+// Provider 를 사용하므로 Statelesswidget 으로 변경
+class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +22,9 @@ class _TasksScreenState extends State<TasksScreen> {
             // isScrollControlled: true,
             builder: (context) => AddTaskScreen(
               addTaskCallback: (newTaskTitle) {
-                setState(() {
-                  tasks.add(Task(name: newTaskTitle));
-                });
+                // setState(() {
+                //   tasks.add(Task(name: newTaskTitle));
+                // });
                 Navigator.pop(context); // Add 버튼을 누른 후 bottom sheet 를 없애준다
               },
             ),
@@ -69,7 +59,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   ),
                 ),
                 Text(
-                  '${tasks.length} Tasks',
+                  '${Provider.of<TaskData>(context).taskCount} Tasks',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
@@ -87,9 +77,7 @@ class _TasksScreenState extends State<TasksScreen> {
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
                   )),
-              child: TasksList(
-                tasks: tasks,
-              ),
+              child: TasksList(),
             ),
           )
         ],
