@@ -20,14 +20,7 @@ class TasksScreen extends StatelessWidget {
           showModalBottomSheet(
             context: context,
             // isScrollControlled: true,
-            builder: (context) => AddTaskScreen(
-              addTaskCallback: (newTaskTitle) {
-                // setState(() {
-                //   tasks.add(Task(name: newTaskTitle));
-                // });
-                Navigator.pop(context); // Add 버튼을 누른 후 bottom sheet 를 없애준다
-              },
-            ),
+            builder: (context) => AddTaskScreen(),
           );
         },
       ),

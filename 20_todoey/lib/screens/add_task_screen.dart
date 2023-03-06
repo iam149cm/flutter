@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey/models/task_data.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  final Function addTaskCallback;
-
-  const AddTaskScreen(
-      {super.key,
-      required this.addTaskCallback}); // Task가 입력되고 버튼을 누르면 리스트에 추가하는 콜백함수
-
   @override
   Widget build(BuildContext context) {
-    late String newTaskTitle;
+    late String? newTaskTitle;
 
     return Container(
       color: Color(0xff757575),
@@ -48,7 +44,9 @@ class AddTaskScreen extends StatelessWidget {
                   backgroundColor: MaterialStateColor.resolveWith(
                       (states) => Colors.cyan.shade200)),
               onPressed: () {
-                addTaskCallback(newTaskTitle);
+                Provider.of<TaskData>(context, listen: false)
+                    .addTask(newTaskTitle!);
+                Navigator.pop(context);
               },
             ),
           ],
