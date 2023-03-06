@@ -13,16 +13,19 @@ class TasksList extends StatelessWidget {
         return ListView.builder(
           itemCount: taskData.taskCount, // index 에러 방지를 위해 필요한 property
           itemBuilder: (context, index) {
+            final task = taskData.tasks[index]; // 반복적으로 사용되는 객체를 상단에 선언해서 사용
             return TaskTile(
-                // 기존에 사용했던 widget.task 를 Provider 로 변경하여 listen 하게 업데이트
-                // Provider.of<TaskData>(context) 를 Consumer 의 taskData로 대체할 수 있게 업데이트
-                isChecked: taskData.tasks[index].isDone,
-                taskTitle: taskData.tasks[index].name,
-                checkboxCallback: (bool? checkboxState) {
-                  // setState(() {
-                  //   widget.tasks[index].toggleDone();
-                  // });
-                });
+              // 기존에 사용했던 widget.task 를 Provider 로 변경하여 listen 하게 업데이트
+              // Provider.of<TaskData>(context) 를 Consumer 의 taskData로 대체할 수 있게 업데이트
+              isChecked: task.isDone,
+              taskTitle: task.name,
+              checkboxCallback: (bool? checkboxState) {
+                taskData.updateTask(task);
+              },
+              longPressCallback: () {
+                taskData.deleteTask(task);
+              },
+            );
           },
         );
       },

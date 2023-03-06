@@ -15,17 +15,20 @@ class TaskTile extends StatelessWidget {
   final bool isChecked; // 👈 실제 state를 변경할 변수는 statefulWidget 안에 들어있다
   final String taskTitle;
   final Function(bool?) checkboxCallback;
+  final VoidCallback longPressCallback;
 
   TaskTile({
     required this.isChecked,
     required this.taskTitle,
     required this.checkboxCallback,
+    required this.longPressCallback,
   });
 
   // 🤍 3. 변수의 state가 바뀌면 build 메소드에서 UI 를 업데이트 해 준다.
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onLongPress: longPressCallback,
       // title - 처음에 무엇이 올 것인가
       title: Text(
         taskTitle,
