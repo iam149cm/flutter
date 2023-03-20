@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
+import 'package:tiktok/screens/features/authentication/email_screen.dart';
+import 'package:tiktok/screens/features/authentication/widgets/form_button.dart';
 
 class UsernameScreen extends StatefulWidget {
   const UsernameScreen({super.key});
@@ -26,6 +28,22 @@ class _UsernameScreenState extends State<UsernameScreen> {
         _username = _usernameController.text;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    super.dispose(); // 다른 것들을 모두 정리 후 마지막에 호출
+  }
+
+  void _onNextTap() {
+    if (_username.isEmpty) return;
+
+    // StatefulWidget 안의 State 안에 있으면 어디서든 context를 사용할 수 있다.
+    // 즉 context를 넘겨줄 필요가 없다
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => EmailScreen(),
+    ));
   }
 
   @override
@@ -77,28 +95,9 @@ class _UsernameScreenState extends State<UsernameScreen> {
             cursorColor: Theme.of(context).primaryColor,
           ),
           Gaps.v16,
-          FractionallySizedBox(
-            widthFactor: 1,
-            child: AnimatedContainer(
-              // AnimatedContainer : decoration 이 바뀌었을 때 애니메이션 효과를 준다.
-              duration: const Duration(milliseconds: 300),
-              padding: const EdgeInsets.symmetric(
-                vertical: Sizes.size16,
-              ),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Sizes.size5),
-                  color: _username.isEmpty
-                      ? Colors.grey.shade300
-                      : Theme.of(context).primaryColor),
-              child: const Text(
-                'Next',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+          GestureDetector(
+            child: FormButton(disabled: _username.isEmpty),
+            onTap: _onNextTap,
           ),
         ]),
       ),
